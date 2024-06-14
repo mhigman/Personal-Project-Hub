@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<head>
+    <title>Core Budget Form | Arvest Bank</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"/>
+    
+</head>
+<!-- TODO: add body here -->
+<body>
+    <a href="/">Go Back Home</a>
+    <h1 class="calculator-title">Core Budget Form</h1>
+    <p class="calculator-description">This form allows you to map your core living expenses.</p>
+    <p class="disclaimer">
+        This application does not collect any data besides the dollar amounts entered.
+        <a href="/privacy-policy">Go Here for Our Privacy Policy</a>
+    </p>
+    <p class="disclaimer">Always overestimate when filling out this form!! 
+    This form uses the data entered to keep from overwithrawling into living expenses.
+    </p>
+    <div id="results">
+        <table>
+            <thead>
+                <tr>
+                    <td>Expense Number</td>
+                    <td>Expense (Amount per month)</td>
+                </tr>
+            </thead>
+            <tbody id="form-content">
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td id="number-result-form">Number of Expenses: 0</td>
+                    <td id="grand-total-form">Grand Total (Monthly): $0</td>
+                </tr>
+            </tfoot>
+        </table>
+    <button id="add-expense">+</button>
+    </div>
+
+    <input id="submit" type="button" value="Submit">
+
+    <p id="status"></p>
+    <script>
+
+        const form_content = document.getElementById("form-content");
+
+        const add_button = document.getElementById("add-expense");
+        const submit = document.getElementById("submit");
+
+        const number_result = document.getElementById("number-result-form");
+        const grand_total_display = document.getElementById("grand-total-form");
+        
+        let user_data = JSON.parse(localStorage.getItem("sample_user") === null ?
+                        JSON.stringify({rate: 1.5, 
+                        balance: 1000,
+                        living_expenses: []}) : localStorage.getItem("sample_user"));
+
+
+        let num_expenses = 0;
+        let grand_total = [];
+
+        function add_to_table(value){
+            num_expenses++;
+            grand_total.push(value);
+            
+            const row = document.createElement('tr')
+            row.innerHTML = `<td>
+                                ${num_expenses}
+                            </td>
+                            <td>
+                                <input inputmode="numeric"
+                                type="number"
+                                class="generated-input"
+                                id="${num_expenses-1}">
+                            </td>`;
+            form_content.appendChild(row)
+
+            number_result.innerHTML = `Number of Expenses: ${num_expenses}`;
+            grand_total_display.innerHTML = `Grand Total (Monthly): $${grand_total.reduce((partialSum, a) => partialSum + a, 0).toFixed(2)}`;
+            grand_total.forEach((value, index) => {
+                document.getElementById(index).value = value;
+            });
+            
+            update_grand_total(document.getElementById(`${num_expenses-1}`));
+            
+        }
+
+
+        async function get_user_form_as_of_now(){
+            user_data.living_expenses.forEach(add_to_table);
+        }
+        get_user_form_as_of_now();
+
+        async function update_grand_total(element){
+            
+            element.addEventListener('input', () => {
+                
+                grand_total[parseInt(element.id)] = isNaN(parseFloat(element.value)) ? 0 : parseFloat(element.value);
+                grand_total_display.innerHTML = `Grand Total (Monthly): $${grand_total.reduce((partialSum, a) => partialSum + a, 0)}`;
+            })
+            
+        }
+
+
+
+        add_button.addEventListener('click', () => {
+           add_to_table(0);
+        });
+
+        submit.addEventListener('click', async () => {
+            
+            user_data.living_expenses = grand_total;
+            localStorage.setItem("sample_user", JSON.stringify(user_data));
+            /*const response = await fetch("/core-budget", {
+                method: "POST",
+                body: JSON.stringify({
+                    expenses: grand_total
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(() => {
+                document.getElementById("status").innerHTML = "Sucessfully submitted!"
+            }, () => {
+                document.getElementById("status").innerHTML = "Failed. Try again."
+            });*/
+            document.getElementById("status").innerHTML = "Successfully Submitted!";
+        });
+
+
+    </script>
+  
+</body>

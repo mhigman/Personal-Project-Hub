@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<head>
+    <title>Savings Goal Calculator | Arvest Bank</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"/>
+    
+</head>
+<body>
+    <!--
+        Insert any arvest related things (like navbars) here.
+    -->
+    <a href="core-budget">To core budget form</a>
+    <h1 class="calculator-title">How much should I save each month?</h1>
+    <p class="calculator-description">Use this calculator to compute the monthly deposit amount needed to reach a savings goal.
+
+All fields are required.
+
+</p>
+    <table class="calculator-container">
+        <tr class="user-field">
+            <td>
+                <label for="start-balance" class="input-title">Saving balance</label>
+            </td>
+            <td>
+                <div class="user-input">
+                    <span class="prefix">$</span>
+                    <input type="text" id="start-balance" class="input-val">
+                </div>
+                
+
+            </td>
+        </tr>
+        <tr><td>
+            <span id="error-1" class="error-message"></span>
+        </td></tr>
+        <tr class="user-field">
+            <td>
+                <label for="rate-of-return" class="input-title">Annual Interest Rate</label>
+            </td>
+            <td>
+                <div class="user-input">
+                    
+                    <input type="text" id="rate-of-return" class="input-val">
+                    <span class="suffix">%</span>
+                </div>
+                
+            </td>
+        </tr>
+        <tr><td>
+            <span id="error-2" class="error-message"></span>
+        </td></tr> 
+        <tr class="user-field">
+            <td>
+                <label for="goal" class="input-title">Savings goal</label>
+            </td>
+            <td>
+                <div class="user-input">
+                    <span class="prefix">$</span>
+                    <input type="text" id="goal" class="input-val">
+                    
+                </div>
+            </td>
+        </tr>
+        <tr><td>
+            <span id="error-3" class="error-message"></span>
+        </td></tr>
+        <tr class="user-field">
+            <td>
+                <label for="num-years" class="input-title">Number of years</label>
+            </td>
+            <td>
+                <input type="text" id="num-years" class="input-val">
+            </td>
+        </tr>
+        <tr><td>
+            <span id="error-4" class="error-message"></span>
+        </td></tr>
+        <td>
+            <div class="checkbox">
+                <input id="amortization-schedule" type="checkbox"
+                checked="checked" />
+                <label for="amortization-schedule">Show Amortization Schedule</label> 
+            </div>
+        </td>
+        
+    </table>
+    
+    <span id="error-1" class="error-message"></span>
+    
+    <input id="submit" type="button" value="Compute" disabled>
+
+    <div id="results">
+
+    </div>
+    <script>
+            //Get the elements for validating each of the feilds
+            const start_balance = document.getElementById('start-balance');
+            const error1 = document.getElementById('error-1');
+
+            const rate_of_return = document.getElementById('rate-of-return');
+            const error2 = document.getElementById('error-2');
+
+            const end_balance = document.getElementById('goal');
+            const error3 = document.getElementById('error-3');
+
+            const num_years = document.getElementById('num-years');
+            const error4 = document.getElementById('error-4');
+
+            const schedule = document.getElementById('amortization-schedule');
+
+            const submitButton = document.getElementById("submit");
+            
+            if(localStorage.getItem("sample_user") === null || localStorage.getItem("sample_user") === ""){
+                localStorage.setItem("sample_user", JSON.stringify({rate: 1.5, 
+                        balance: 1000,
+                        living_expenses: []}));
+                
+            }
+            
+            const previousUser = JSON.parse(localStorage.getItem("sample_user"));
+            const dollarAmountRegex = /^\d+(\.\d{2})?$/;
+
+            let field1Valid = false;
+            let field2Valid = false;
+            let field3Valid = false;
+            let field4Valid = false;
+
+            start_balance.addEventListener('input', () => {
+                const inputValue = start_balance.value.trim();
+                if (dollarAmountRegex.test(inputValue)) {
+                    field1Valid = true;
+                    error1.textContent = ''; // Clear error message
+                } else {
+                    field1Valid = false;
+                    error1.textContent = 'Please enter a valid dollar amount (e.g., $12.34)';
+                }
+                submitButton.disabled = !(field1Valid && field2Valid && field3Valid && field4Valid);
+            });
+
+            rate_of_return.addEventListener('input', () => {
+                const inputValue = rate_of_return.value.trim()
+
+                if(isNaN(parseFloat(inputValue)) || parseFloat(inputValue) > 99.99){
+                    field2Valid = false;
+                    error2.textContent = 'Please enter a valid percent (up to 99.99%)'
+                } else {
+                    field2Valid = true;
+                    error2.textContent = '';
+                }
+                submitButton.disabled = !(field1Valid && field2Valid && field3Valid && field4Valid);
+            });
+
+            end_balance.addEventListener('input', () => {
+                const inputValue = end_balance.value.trim();
+
+                if(dollarAmountRegex.test(inputValue)){
+                    field3Valid = true;
+                    error3.textContent = '';
+                } else {
+                    field3Valid = false;
+                    error3.textContent = 'Please enter a valid dollar amount (e.g., $12.34)';
+                }
+                submitButton.disabled = !(field1Valid && field2Valid && field3Valid && field4Valid);
+            });
+
+            num_years.addEventListener('input', () => {
+                const inputValue = num_years.value.trim();
+
+                if(isNaN(parseFloat(inputValue)) || parseFloat(inputValue) > 999){
+                    field4Valid = false;
+                    error4.textContent = 'Please enter a valid year less than 999';
+                } else {
+                    field4Valid = true;
+                    error4.textContent = '';
+                }
+                submitButton.disabled = !(field1Valid && field2Valid && field3Valid && field4Valid);
+            });
+
+
+            submitButton.addEventListener('click', () => {
+
+                //Values from the form
+                const starting = parseFloat(start_balance.value.trim());
+                const percent = parseFloat(rate_of_return.value.trim())/100;
+                const ending = parseFloat(end_balance.value.trim());
+                const months = parseFloat(num_years.value.trim())*12;
+                const showSchedule = schedule.checked;
+
+                const deposit = ((ending - (starting * Math.pow(1 + percent/12, months))) * percent/12)/(Math.pow(1 + percent/12, months)-1);
+
+                const results = document.getElementById('results');
+                results.innerHTML = `<p>The monthly deposit is ${deposit.toFixed(2)}.</p>`
+                if(showSchedule){
+                    let table = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Deposit</th>
+                                <th>Interest</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Starting Balance</td>
+                                <td>$${starting.toFixed(2)}</td>
+                                <td>$0.00</td>
+                                <td>$0.00</td>
+                            </tr>
+                    `;
+                    let balance = starting;
+                    let interest = 0;
+                    for(let i = 0; i < months; i++){
+                        interest = percent/12 * balance;
+                        balance += deposit + interest;
+                        table += `<tr>
+                            <td>Deposit ${i+1}</td>
+                            <td>$${deposit.toFixed(2)}</td>
+                            <td>$${interest.toFixed(2)}</td>
+                            <td>$${balance.toFixed(2)}</td>
+                            </tr>`
+                    }
+                    table += `<tr>
+                                <td>Grand Total</td>
+                                <td>$${(deposit * months).toFixed(2)}</td>
+                                <td>$${(ending - (deposit * months)).toFixed(2)}</td>
+                                <td>$${ending.toFixed(2)}</td>
+                        </tr></tbody></table>`
+                    results.innerHTML += table;
+                }
+            });
+
+
+
+
+            async function get_user_data(){
+                if(!isNaN(parseFloat(previousUser.rate))){
+                    rate_of_return.value = previousUser.rate;
+                    await rate_of_return.dispatchEvent(new Event('input'));
+                } 
+                if(!isNaN(parseFloat(previousUser.balance))) {
+                    start_balance.value = previousUser.balance;
+                    await start_balance.dispatchEvent(new Event('input'));
+                }
+            }
+            get_user_data();
+    </script>
+</body>

@@ -1,0 +1,217 @@
+/* Reset some default styles */
+body, h1, p, table {
+  margin: 0;
+  padding: 0;
+}
+
+/* Body background color and font styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+/* Page title styles */
+.calculator-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Calculator description styles */
+.calculator-description {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* Container for input fields */
+.calculator-container {
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  width: 80%;
+  max-width: 800px;
+}
+
+/* Input field labels */
+.input-title {
+  font-weight: bold;
+  margin-right: 10px;
+  width: 50%;
+}
+.checkbox {
+  width: 100%;
+}
+/* User input fields */
+.user-input {
+  width: 100%;
+  padding: 5px;
+  
+  margin-bottom: 10px;
+}
+.input-val {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* Checkbox label styles */
+label[for="amortization-schedule"] {
+  display: inline;
+  margin-left: 5px;
+}
+
+/* Error message styles */
+.error-message {
+  color: red;
+  font-size: 14x;
+  word-wrap: break-word;
+}
+
+/* Submit button styles */
+#submit {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #0074b8;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#submit:disabled {
+  background-color: red;
+  cursor: not-allowed;
+}
+
+/* Results container styles */
+#results {
+  margin-top: 20px;
+  display: block;
+  text-align: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* Styles for the table */
+#results table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+/* Styles for table header (thead) */
+#results thead {
+  background-color: #0074b8; /* Header background color */
+  color: #fff; /* Header text color */
+}
+
+/* Styles for table header cells (th) */
+#results th {
+  padding: 10px;
+  text-align: left;
+}
+
+/* Styles for table body (tbody) */
+#results tbody {
+  background-color: #f0f0f0; /* Body background color */
+}
+
+/* Styles for table body cells (td) */
+#results td {
+  border: 1px solid #ccc;
+}
+
+/* Style the first row differently (Starting Balance) */
+#results tbody tr:first-child {
+  background-color: #eee; /* Background color for the first row */
+}
+
+/* Hover effect for rows */
+#results tbody tr:hover {
+  background-color: #d0d0d0; /* Background color on hover */
+}
+
+#results tfoot td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+.generated-input {
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  margin: none;
+  padding: none;
+  height: 40px;
+  background-color: #f0f0f0;
+}
+.generated-input::-webkit-outer-spin-button,
+.generated-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+}
+
+.generated-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: none;
+}
+
+.generated-input:focus {
+  background-color: #f0f0f0;
+  outline: none;
+}
+
+
+/* Disclaimer Styles */
+.disclaimer {
+  background-color: #f5ffb6;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 14px;
+  color: #555;
+  display: block;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 20px 0;
+  max-width: 600px;
+}
+
+/* Add some margin to the top and bottom for separation from other content. */
+
+/* Link styles within the disclaimer */
+.disclaimer a {
+  color: #0074b8;
+  text-decoration: underline;
+}
+
+/* Add Button Styles */
+#add-expense {
+  display: block;
+  padding: 10px 20px;
+  background-color: #0074b8;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 30px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+/* Hover effect for the Add button */
+#add-expense:hover {
+  background-color: #00558c; /* Darker color on hover */
+}

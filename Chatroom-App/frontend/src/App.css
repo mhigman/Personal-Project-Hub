@@ -1,0 +1,163 @@
+
+
+/*Nav Bar Syle*/
+.App-header { 
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  height: 50px;
+  width: 100%;
+  text-align: top;
+  background-color: #c6c6c6;
+  align-items: center;
+  text-align: left;
+  display: inline;
+}
+.corner-logo {
+  text-align: left;  
+  vertical-align: middle;
+  padding-left: 10px;
+  margin: 0;
+  font-size: 2vmin;  
+  line-height: 50px;
+  justify-content: left;
+  align-items: left;
+  display: inline;
+  position: absolute;
+}
+.nav-bar {
+  position: absolute;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: none;
+  border-width: -2px;
+  border-radius: 10px;
+  height: 30px;
+  display: inline;
+  width: 65%;
+  font-size: 2.2vmin;
+  justify-content: center;
+  list-style: none;
+}
+.nav-bar li{  
+  line-height: 30px;
+  display: inline;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.nav-bar li:not(:last-child):after{
+  content: " \2022  ";
+}
+
+
+
+/*Body Wrapper -- Wrap main body around this div*/
+.App-body {
+
+  background-color: #858585;
+  padding: 0;
+  min-height: calc(100vh - 90px);
+  border: 3px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
+  font-size: calc(10px + 2vmin);
+  color: rgb(0, 0, 0);
+  margin-bottom: 90px;
+}
+/*Title Wrapper -- Wrap title from page in this div*/
+.page-title {
+  text-align: center;
+  background-color: #c6c6c6;
+  margin: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  border-color: #000000;
+  border-style: solid;
+  border-width: -2px;
+  margin-top: 70px;
+}
+
+/*<p> Wrapper -- Wrap text in this ig*/ 
+.page-content {
+  text-align: left;
+  background-color: #dfdfdf;
+  font-family: sans-serif;
+  font-size: 10pt;
+  border-width: -2px;
+  border-radius: 10px;
+  border-style: solid;
+  margin: 5px;
+  padding: 5px;
+  width: 75%;
+}
+.page-content p{
+  text-indent: 20px;
+}
+.page-content-no-indent {
+  text-align: left;
+  background-color: #dfdfdf;
+  font-family: sans-serif;
+  font-size: 10pt;
+  border-width: -2px;
+  border-radius: 10px;
+  border-style: solid;
+  margin: 5px;
+  padding: 5px;
+  width: 75%;
+}
+/*More specific stylesheets*/
+.hidden-list {
+  list-style-type: none;
+  padding: 0;
+}
+.chat-area {
+  display: block;
+  padding-top: 30px;
+}
+.chat-area textarea {
+  display: block;
+  width: 100%;
+  height: 300px;
+  box-sizing: border-box;
+  resize: none;
+  border-width: -2px;
+  border-radius: 10px;
+  border-color: #000000;
+  margin-bottom: 30px;
+}
+
+
+/*Footer Styles*/
+.App-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 90px;
+  background-color: #c6c6c6;
+}
+.footer-text {
+  font-size: 25px;
+  text-align: center;
+  padding: 0;
+}
+.footer-text li{
+  display: inline;
+  white-space: nowrap;
+  padding: 0;
+  font-size: calc(10px + 1vmin);
+}
+.footer-text li:not(:last-child):after{
+  content: " | ";
+}
