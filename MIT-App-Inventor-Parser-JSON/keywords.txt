@@ -1,0 +1,58 @@
+#######################################
+# Syntax Coloring Map For AppInventorIntegration
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+BLEConnector    KEYWORD1
+Parser  KEYWORD1
+BlockType   KEYWORD1
+Subroutine  KEYWORD1
+ExpressionSubroutine    KEYWORD1
+StatementSubroutine KEYWORD1
+ParameterSubroutine KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+parseCommands   KEYWORD2
+executeSubroutine   KEYWORD2
+begin   KEYWORD2
+pollAndFindCentral  KEYWORD2
+readChunk   KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+EXPRESSION  LITERAL1
+STATEMENTS  LITERAL1
+TOP_LEVEL_DECLS LITERAL1
+GENERIC_BLOCK LITERAL1
+FOR LITERAL1
+WHILE   LITERAL1
+IF  LITERAL1
+IF_ELSE LITERAL1
+IF_ELIF_ELSE    LITERAL1
+MOVE_SERVO_MOTOR    LITERAL1
+MOVE_STEPPER_MOTOR  LITERAL1
+DIGITAL_SWITCH_UP   LITERAL1
+DIGITAL_SWITCH_DOWN LITERAL1
+READ_FROM_PORT  LITERAL1
+VARIABLE_SET    LITERAL1
+INTEGER_LITERAL LITERAL1
+STRING_LITERAL  LITERAL1
+BOOLEAN_LITERAL LITERAL1
+DOUBLE_LITERAL  LITERAL1
+VARIABLE_CALL   LITERAL1
+ARITHMETIC_OPERATION_ADD    LITERAL1
+ARITHMETIC_OPERATION_SUBTRACT   LITERAL1
+ARITHMETIC_OPERATION_MULTIPLY   LITERAL1
+ARITHMETIC_OPERATION_DIVIDE LITERAL1
+BOOLEAN_OPERATION_AND   LITERAL1
+BOOLEAN_OPERATION_NOT   LITERAL1
+BOOLEAN_OPERATION_OR    LITERAL1
+

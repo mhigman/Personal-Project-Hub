@@ -1,0 +1,721 @@
+{
+    "test1": {
+        "comm1": {
+            "code": 10,
+            "number": {
+                "code": 15,
+                "value": 6
+            }
+        }
+    },
+    "test2": {
+        "comm1": {
+            "code": 14,
+            "type": 4,
+            "value": {
+                "code": 15,
+                "value": 5
+            }
+        },
+        "comm2": {
+            "code": 9,
+            "number": {
+                "code": 23,
+                "name": 40
+            }
+        }
+    },
+    "test3": {
+        "comm1": {
+            "code": 1,
+            "start": {
+                "code": 15,
+                "value": 0
+            },
+            "stop": {
+                "code": 15,
+                "value": 3
+            },
+            "step": {
+                "code": 15,
+                "value": 1
+            },
+            "action": {
+                "comm1": {
+                    "code": 9,
+                    "number": {
+                        "code": 15,
+                        "value": 5
+                    }
+                },
+                "comm2": {
+                    "code": 41,
+                    "time": {
+                        "code": 26,
+                        "arg1": {
+                            "code": 15,
+                            "value": 1000
+                        },
+                        "arg2": {
+                            "code": 23,
+                            "iter_range": "iA"
+                        }
+                    }
+                },
+                "comm3": {
+                    "code": 10,
+                    "number": {
+                        "code": 15,
+                        "value": 5
+                    }
+                }
+            }
+        }
+    },
+    "test4": {
+        "comm1": {
+            "code": 14,
+            "type": 0,
+            "value": {
+                "code": 15,
+                "value": 5
+            }
+        },
+        "comm2": {
+            "code": 14,
+            "type": 1,
+            "value": {
+                "code": 15,
+                "value": 6
+            }
+        },
+        "comm3": {
+            "code": 14,
+            "type": 4,
+            "value": {
+                "code": 15,
+                "value": 7
+            }
+        },
+        "comm4": {
+            "code": 9,
+            "number": {
+                "code": 23,
+                "name": 0
+            }
+        },
+        "comm5": {
+            "code": 9,
+            "number": {
+                "code": 23,
+                "name": 20
+            }
+        },
+        "comm6": {
+            "code": 9,
+            "number": {
+                "code": 23,
+                "name": 40
+            }
+        }
+    },
+    "test5": {
+        "comm1": {
+            "code": 2,
+            "list_type": 0,
+            "list": {
+                "code": 15,
+                "value": [
+                    5,
+                    6,
+                    7
+                ]
+            },
+            "action": {
+                "comm1": {
+                    "code": 9,
+                    "number": {
+                        "code": 23,
+                        "iter": "iterK"
+                    }
+                }
+            }
+        }
+    },
+    "test6": {
+        "comm1:": {
+            "code": 14,
+            "type": 5,
+            "value": {
+                "code": 15,
+                "value": [
+                    0,
+                    1,
+                    2
+                ]
+            }
+        },
+        "comm2": {
+            "code": 2,
+            "list_type": 4,
+            "list": {
+                "code": 23,
+                "name": 0
+            },
+            "action": {
+                "comm1": {
+                    "code": 9,
+                    "number": {
+                        "code": 23,
+                        "iter": "iterU"
+                    }
+                }
+            }
+        }
+    },
+    "test7": {
+        "comm1": {
+            "code": 14,
+            "type": 5,
+            "value": {
+                "code": 15,
+                "value": [
+                    [
+                        2,
+                        3
+                    ],
+                    [
+                        4,
+                        5
+                    ],
+                    [
+                        6,
+                        7
+                    ],
+                    [
+                        8,
+                        9
+                    ],
+                    [
+                        10,
+                        11
+                    ]
+                ]
+            }
+        },
+        "comm2": {
+            "code": 2,
+            "list_type": 5,
+            "list": {
+                "code": 23,
+                "name": 0
+            },
+            "action": {
+                "comm1": {
+                    "code": 2,
+                    "list_type": 0,
+                    "list": {
+                        "code": 23,
+                        "iter": "iterA"
+                    },
+                    "action": {
+                        "comm1": {
+                            "code": 9,
+                            "number": {
+                                "code": 23,
+                                "iter": "iterK"
+                            }
+                        },
+                        "comm2": {
+                            "code": 41,
+                            "time": {
+                                "code": 15,
+                                "value": 1000
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "test8": {
+        "comm1": {
+            "code": 42,
+            "pin1": {
+                "code": 15,
+                "value": 3
+            },
+            "pin2": {
+                "code": 15,
+                "value": 4
+            }
+        },
+        "comm2": {
+            "code": 42,
+            "pin1": {
+                "code": 15,
+                "value": 9
+            },
+            "pin2": {
+                "code": 15,
+                "value": 10
+            }
+        },
+        "comm3": {
+            "code": 16,
+            "id": 0,
+            "speed": {
+                "code": 15,
+                "value": 150
+            }
+        },
+        "comm4": {
+            "code": 16,
+            "id": 1,
+            "speed": {
+                "code": 15,
+                "value": 150
+            }
+        }
+    },
+    "test9": {
+        "comm1": {
+            "code": 42,
+            "name": 1,
+            "pin1": {
+                "code": 15,
+                "value": 3
+            },
+            "pin2": {
+                "code": 15,
+                "value": 4
+            }
+        },
+        "comm2": {
+            "code": 42,
+            "name": 1,
+            "pin1": {
+                "code": 15,
+                "value": 9
+            },
+            "pin2": {
+                "code": 15,
+                "value": 10
+            }
+        },
+        "comm3": {
+            "code": 16,
+            "id": 1,
+            "speed": {
+                "code": 15,
+                "value": 150
+            }
+        }
+    },
+    "test10": {
+        "c0": {
+            "code": 42,
+            "pin1": {
+                "code": 15,
+                "value": 9
+            },
+            "pin2": {
+                "code": 15,
+                "value": 10
+            }
+        },
+        "c1": {
+            "code": 14,
+            "type": 0,
+            "value": {
+                "code": 15,
+                "value": 0
+            }
+        },
+        "c2": {
+            "code": 1,
+            "start": {
+                "code": 15,
+                "value": 1
+            },
+            "stop": {
+                "code": 15,
+                "value": 4
+            },
+            "step": {
+                "code": 15,
+                "value": 1
+            },
+            "action": {
+                "c1": {
+                    "code": 14,
+                    "type": 0,
+                    "name": {
+                        "code": 15,
+                        "value": 0
+                    },
+                    "value": {
+                        "code": 26,
+                        "arg1": {
+                            "code": 15,
+                            "value": 1000
+                        },
+                        "arg2": {
+                            "code": 23,
+                            "iter_range": "iA"
+                        }
+                    }
+                },
+                "c2": {
+                    "code": 16,
+                    "id": 0,
+                    "speed": {
+                        "code": 15,
+                        "value": 150
+                    }
+                },
+                "c3": {
+                    "code": 41,
+                    "time": {
+                        "code": 23,
+                        "name": 0
+                    }
+                },
+                "c4": {
+                    "code": 16,
+                    "id": 0,
+                    "speed": {
+                        "code": 15,
+                        "value": 0
+                    }
+                },
+                "c5": {
+                    "code": 41,
+                    "time": {
+                        "code": 23,
+                        "name": 0
+                    }
+                }
+            }
+        }
+    },
+    "test11": {
+        "c1": {
+            "code": 14,
+            "type": 0,
+            "name": 0,
+            "value": {
+                "code": 15,
+                "value": 0
+            }
+        },
+        "c2": {
+            "code": 42,
+            "pin1": {
+                "code": 15,
+                "value": 9
+            },
+            "pin2": {
+                "code": 15,
+                "value": 10
+            }
+        },
+        "c3": {
+            "code": 3,
+            "condition": {
+                "code": 32,
+                "arg1": {
+                    "code": 23,
+                    "name": 0
+                },
+                "arg2": {
+                    "code": 15,
+                    "value": 4
+                }
+            },
+            "action": {
+                "c1": {
+                    "code": 14,
+                    "type": 0,
+                    "name": 1,
+                    "value": {
+                        "code": 26,
+                        "arg1": {
+                            "code": 15,
+                            "value": 1000
+                        },
+                        "arg2": {
+                            "code": 23,
+                            "name": 0
+                        }
+                    }
+                },
+                "c2": {
+                    "code": 16,
+                    "id": 0,
+                    "speed": {
+                        "code": 15,
+                        "value": 150
+                    }
+                },
+                "c3": {
+                    "code": 41,
+                    "time": {
+                        "code": 23,
+                        "name": 1
+                    }
+                },
+                "c4": {
+                    "code": 16,
+                    "id": 0,
+                    "speed": {
+                        "code": 15,
+                        "value": 0
+                    }
+                },
+                "c5": {
+                    "code": 41,
+                    "time": {
+                        "code": 23,
+                        "name": 1
+                    }
+                },
+                "c6": {
+                    "code": 14,
+                    "type": 0,
+                    "name": 0,
+                    "value": {
+                        "code": 24,
+                        "arg1": {
+                            "code": 23,
+                            "name": 0
+                        },
+                        "arg2": {
+                            "code": 15,
+                            "value": 1
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "test12": {
+        "c0": {
+            "code": 42,
+            "pin1": {
+                "code": 15,
+                "value": 3
+            },
+            "pin2": {
+                "code": 15,
+                "value": 4
+            }
+        },
+        "c1": {
+            "code": 42,
+            "pin1": {
+                "code": 15,
+                "value": 9
+            },
+            "pin2": {
+                "code": 15,
+                "value": 10
+            }
+        },
+        "c2": {
+            "code": 5,
+            "condition": {
+                "code": 30,
+                "arg1": {
+                    "code": 33,
+                    "arg1": {
+                        "code": 15,
+                        "value": 5
+                    },
+                    "arg2": {
+                        "code": 15,
+                        "value": 3
+                    }
+                },
+                "arg2": {
+                    "code": 15,
+                    "value": 1
+                }
+            },
+            "action1": {
+                "c1": {
+                    "code": 16,
+                    "id": 0,
+                    "speed": {
+                        "code": 15,
+                        "value": 150
+                    }
+                }
+            },
+            "action2": {
+                "c1": {
+                    "code": 16,
+                    "id": 1,
+                    "speed": {
+                        "code": 15,
+                        "value": 150
+                    }
+                }
+            }
+        }
+    },
+    "test13": {
+        "c0": {
+            "code": 42,
+            "pin1": {
+                "code": 15,
+                "value": 9
+            },
+            "pin2": {
+                "code": 15,
+                "value": 10
+            }
+        },
+        "c1": {
+            "code": 14,
+            "type": 0,
+            "name": 0,
+            "value": {
+                "code": 15,
+                "value": 1
+            }
+        },
+        "c2": {
+            "code": 3,
+            "condition": {
+                "code": 32,
+                "arg1": {
+                    "code": 23,
+                    "name": 0
+                },
+                "arg2": {
+                    "code": 15,
+                    "value": 4
+                }
+            },
+            "action": {
+                "c0": {
+                    "code": 14,
+                    "type": 0,
+                    "name": 1,
+                    "value": {
+                        "code": 24,
+                        "arg1": {
+                            "code": 15,
+                            "value": 100
+                        },
+                        "arg2": {
+                            "code": 26,
+                            "arg1": {
+                                "code": 15,
+                                "value": 40
+                            },
+                            "arg2": {
+                                "code": 23,
+                                "name": 0
+                            }
+                        }
+                    }
+                },
+                "c1": {
+                    "code": 14,
+                    "type": 0,
+                    "name": 2,
+                    "value": {
+                        "code": 26,
+                        "arg1": {
+                            "code": 15,
+                            "value": 1500
+                        },
+                        "arg2": {
+                            "code": 23,
+                            "name": 0
+                        }
+                    }
+                },
+                "c2": {
+                    "code": 16,
+                    "id": 0,
+                    "speed": {
+                        "code": 23,
+                        "name": 1
+                    }
+                },
+                "c3": {
+                    "code": 41,
+                    "time": {
+                        "code": 23,
+                        "name": 2
+                    }
+                },
+                "c4": {
+                    "code": 14,
+                    "type": 0,
+                    "name": 0,
+                    "value": {
+                        "code": 24,
+                        "arg1": {
+                            "code": 23,
+                            "name": 0
+                        },
+                        "arg2": {
+                            "code": 15,
+                            "value": 1
+                        }
+                    }
+                },
+                "c5": {
+                    "code": 16,
+                    "id": 0,
+                    "speed": {
+                        "code": 15,
+                        "value": 0
+                    }
+                },
+                "c6": {
+                    "code": 41,
+                    "time": {
+                        "code": 23,
+                        "name": 2
+                    }
+                }
+            }
+        },
+        "c3": {
+            "code": 16,
+            "id": 0,
+            "speed": {
+                "code": 15,
+                "value": 0
+            }
+        }
+    },
+    "test14": {
+        "code": 16,
+        "speed": {
+            "code": 23,
+            "name": 0
+        }
+    },
+    "test15": {
+        "code": 37,
+        "method": 0,
+        "arg1": {
+            "code": 15,
+            "value": 20
+        }, 
+        "arg2": {
+            "code": 15,
+            "value": 25
+        }
+    },
+    "JsonSample": {
+        "key1": "value (any type)",
+        "key2": "another value"
+    }
+}
