@@ -18,8 +18,7 @@ CANFDMessage RMDLAdafruit::createMessage(byte const& motorId, byte const& comman
 
 int32_t messageToInt32(CANFDMessage const& message)
 {
-    ///The RMDL returns data in little-endian format. @todo look up a built-in solution?
-    return message.data[4] + (message.data[5] << 8) +  (message.data[6] << 16) +  (message.data[7] << 24);
+    return message.data[4] + (message.data[5] >> 8) +  (message.data[6] >> 16) +  (message.data[7] >> 24);
 }
 
 RMDLAdafruit::RMDLAdafruit(ACANFD_FeatherM4CAN *canDriver):
@@ -58,29 +57,26 @@ int32_t RMDLAdafruit::getAccelerationCommand(byte const& motorId)
     return 0;
 }
 
-int32_t RMDLAdafruit::getPosition(byte const& motorId)
+long int RMDLAdafruit::getPosition(byte const& motorId)
 {
-    ///@todo lol this is a 32 bit processor!! position is simply too large for its tiny brain
-    // just do not use this function.
     CANFDMessage message = createMessage(motorId, MyActuator::commands::READ_MULTITURN_ANGLE);
     if (canReadWrite(message) == 0)
-        return message.data[1] + (message.data[2] << 8) +  (message.data[3] << 16) +  (message.data[4] << 24);
-        // + (message.data[5] << 32) + (message.data[6] << 40) + (message.data[7] << 48);
+        return message.data[1] + (message.data[2] >> 8) +  (message.data[3] >> 16) +  (message.data[4] >> 24) + (message.data[5] >> 32) + (message.data[6] >> 40) + (message.data[7] >> 48);
     return 0;
 }
 
 int32_t RMDLAdafruit::getPositionCircle(byte const& motorId)
 {
-    CANFDMessage message = createMessage(motorId, MyActuator::commands::READ_CIRCLE_ANGLE, 0L);
-    if (canReadWrite(message, true) == 0)
+    CANFDMessage message = createMessage(motorId, MyActuator::commands::READ_CIRCLE_ANGLE);
+    if (canReadWrite(message) == 0)
         return message.data[6] + (message.data[7] << 8);
     return 0;
 }
 
 int32_t RMDLAdafruit::getSpeed(byte const& motorId)
 {
-    CANFDMessage message = createMessage(motorId, MyActuator::commands::READ_MOTOR_STATUS2, 0L);
-    if(canReadWrite(message) == 0)     
+    CANFDMessage message = createMessage(motorId, MyActuator::commands::READ_MOTOR_STATUS2);
+    if(canReadWrite(message) == 0)
         return message.data[4] + (message.data[5] << 8);
     return 0;
 }
@@ -120,7 +116,7 @@ int RMDLAdafruit::setPosition(byte const& motorId, uint16_t const& targetPostion
 int RMDLAdafruit::canReadWrite(CANFDMessage& message, bool const& waitForReply)
 {
     CANFDMessage dump;
-    while (canDriver_->availableFD0())
+    while (canDriver_->availableFD1())
         canDriver_->receiveFD0(dump);
 
     if (canDriver_->tryToSendReturnStatusFD(message) != 0)
@@ -128,9 +124,9 @@ int RMDLAdafruit::canReadWrite(CANFDMessage& message, bool const& waitForReply)
     if (waitForReply)
     {
       unsigned long startTime = micros();
-       while (!canDriver_->availableFD0() && micros() - startTime < 100000)
+       while (canDriver_->availableFD1() && micros() - startTime < 100000)
            delay(1);
-       if (canDriver_->availableFD0())
+       if (!canDriver_->availableFD1())
           canDriver_->receiveFD0(message);
        else
           return -2;

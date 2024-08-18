@@ -1,8 +1,8 @@
-/// \file RMDLAdafruit.h
-/// \brief A simple driver for the RMDL brushless motor from MyActuator
+/// \file RMDX.h
+/// \brief A simple driver for the RMDX brushless motor from MyActuator
 ///
 /// \details This code is meant to work as a simple example for communicating with
-///          the RMDL brushless motors. Note that only single-motor commands are implemented.
+///          the RMDX brushless motors. Note that only single-motor commands are implemented.
 
 #ifndef MYACTUATOR_RMDLAdafruit
 #define MYACTUATOR_RMDLAdafruit
@@ -11,9 +11,6 @@
 
 #ifndef MY_ACTUATOR_COMMANDS
 #define MY_ACTUATOR_COMMANDS
-/// @brief commands for the RMDL motor.
-/// @todo most of these look left over from the RMD*X* lib this was forked from, which
-///       uses a different command protocol. They could stand to be updated!
 namespace MyActuator::commands
 {
     byte const READ_PID = 0x30;
@@ -72,12 +69,11 @@ class RMDLAdafruit{
         /// \brief Get the motor position (multiturn)
         /// \param[in] motorId Motor id
         /// \return Position,  command, in dps/s ; 0 on failure.
-        int32_t getPosition(byte const& motorId);
+        long int getPosition(byte const& motorId);
 
         /// \brief Get the motor position (Circle)
         /// \param[in] motorId Motor id
         /// \return Position,  command, in dps/s ; 0 on failure.
-        /// \note returns 7 byte int. use with caution
         int32_t getPositionCircle(byte const& motorId);
 
         /// \brief Get the motor speed (1dps/LSB)
