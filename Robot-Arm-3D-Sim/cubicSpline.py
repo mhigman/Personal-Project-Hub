@@ -286,6 +286,11 @@ def createProfile(knotPointsX, knotPointsY, knotPointsZ, delta, l1, l2, maxAccel
         time = i * delta
         profileComponent = computePVA(x, y, z, time, l1, l2, motion_bounds, fAndCoords, maxAcceleration, maxJerk)
         motionProfile.append(profileComponent)
+
+        # NOTE This code snippet "beautifies" the animation.
+        # The given animation can render without interpolation, but the
+        # amount of sections that can reasonably be rendered by the animation is limited by runtime.
+        # A small amount of sections make the animation choppy.
         if(interpolate and not(i+1 >= len(fAndCoords[1][0, :]))):
 
             thetas = convertToAngularPosition(x, y, z, l1, l2)
