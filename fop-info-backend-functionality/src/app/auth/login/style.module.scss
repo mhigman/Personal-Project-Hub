@@ -1,0 +1,26 @@
+.main {
+    height: 100vh;
+    padding: 48px;
+
+    background-color: #eee;
+
+    position: absolute;
+    z-index: 20;
+    font-family: 'Inter';
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+// width: '50%', height: '100%', backgroundColor: '#fff', borderRadius: 24, padding: 36
+.inner {
+    width: 50%;
+    height: 100%;
+
+    padding: 36px;
+
+    background-color: #fff;
+    border-radius: 24px;
+}
