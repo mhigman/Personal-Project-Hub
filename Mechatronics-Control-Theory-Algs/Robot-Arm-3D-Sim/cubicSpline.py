@@ -11,6 +11,8 @@ from mpl_toolkits.mplot3d import proj3d
 from mpl_toolkits.mplot3d.art3d import Line3D
 
 
+
+# This is a class to make arrows in 3D (I eventually settled with using segments, but I the code anyways)
 class Arrow3D(FancyArrowPatch):
     def __init__(self, xs, ys, zs, *args, **kwargs):
         FancyArrowPatch.__init__(self, (0,0), (0,0), *args, **kwargs)
@@ -26,7 +28,7 @@ class Arrow3D(FancyArrowPatch):
     def set_position(self, x, y, z):
         self._verts3d = x, y, z
 
-
+# Simple Util function to clam a value
 def clamp(val, minval, maxval):
     val = minval if val < minval else val
     val = maxval if val > maxval else val 
@@ -37,41 +39,53 @@ def clamp(val, minval, maxval):
 
 # Does parametric Cubic Spline interpolation and returns the spline and vector coordinates for every multiple of delta from 0 <= t <= 1
 def cubicInterpolate(xList, yList, zList, delta):
+    # Create x, y, and z coords in numpy
     xList = np.array(xList)
     yList = np.array(yList)
     zList = np.array(zList)
     sizeX = xList.size
     sizeY = yList.size
     sizeZ = zList.size
+    # Partition each coordinate as a vector associated with a time between 0 and 1
     t = np.linspace(0, 1, sizeX)
     r = np.vstack((xList.reshape((1, sizeX)), yList.reshape(1, sizeY), zList.reshape(1, sizeZ)))
     
+    # Interpolate between these vectors
     spline = interp1d(t, r, kind='cubic')
+
+    # Divvy up the time into some width of delta
     times = np.linspace(np.min(t), np.max(t), int(1 / delta))
+    # Evaluate the spline at these times
     r = spline(times)
 
-
+    # Return the spline and the values
     return [spline, r]
 
 
 # Converts (x, y) into (angle1, angle2) of SCARA joints using inverse kinematics
 def convertToAngularPosition(x, y, z, l1, l2):
+    # First, find an angle2 that is used to find angle1
     angle2 = -np.arccos(clamp((x ** 2 + y ** 2 + z ** 2 - l1 ** 2 - l2 ** 2) / (2 * l1 * l2), -1, 1))
+    # Find angle 1
     angle1 = np.arctan2(z, np.sqrt(x**2 + y ** 2)) - np.arctan2(l2 * np.sin(angle2), l1 + l2 * (np.cos(angle2)))
+    # Then, add angle 1 to angle 2 so that we get the correct angle 2 as we defined it.
     angle2 += angle1
+    # Finally, we get angle 3 from arctan.
     angle3 = np.arctan2(x, y)
+    # Return the angle
     return [angle1, angle2, angle3]
     # for index, (xPoint, yPoint) in enumerate(zip(x, y)):
 
 
 # Converts linear velocity into angular velocity using the inverse of the Jacobian matrix
 def convertToAngularVelocity(linearVelocityVector, jacobianInverse):
+    # (J^-1)(v)
     return np.dot(jacobianInverse, linearVelocityVector)
 
 
 # Converts linear acceleration into angular acceleration using the derivative and inverse of the Jacobian matrix
 def convertToAngularAcceleration(linearAccelerationVector, angularVelocityVector, jacobianInverse, jacobianDerivative):
-
+    # (J^-1)(a - (J')(v))
     return np.dot(jacobianInverse, (np.atleast_2d(linearAccelerationVector).T - np.dot(jacobianDerivative, angularVelocityVector)))
 
 
@@ -94,18 +108,25 @@ def numericSecondDerivativeSpline(parameterizedSpline, number, deltaT, deltaV):
         return (numericDerivativeSpline(parameterizedSpline, number, deltaT) - numericDerivativeSpline(
             parameterizedSpline, number-(deltaV/2), deltaT)) / deltaV
 
+# Compute the inverse of the Jacobian matrix for the system numerically.
 def findJacobianInverse(angles, l1, l2):
     (theta1, theta2, theta3) = tuple(angles)
-
+    
+    # Define Jacobian
     jacobian = np.matrix([
         [-l1 * np.sin(theta3) * np.sin(theta1), -l2 * np.sin(theta3) * np.sin(theta2), np.cos(theta3) * (l2 * np.cos(theta2) + l1 * np.cos(theta1))],
         [-l1 * np.cos(theta3) * np.sin(theta1), -l2 * np.cos(theta3) * np.sin(theta2), -np.sin(theta3) * (l2 * np.cos(theta2) + l1 * np.cos(theta1))],
         [l1 * np.cos(theta1), l2 * np.cos(theta2), 0]])
+    
+    # Return Inverse
     return np.array(jacobian.I)
 
+
+# Compute the derivative of the Jacobian Using a formula
 def findJacobianDerivative(angles, anglesVelocity, l1, l2):
     (theta1, theta2, theta3) = tuple(angles)
     (theta1_dot, theta2_dot, theta3_dot) = tuple(map(lambda x: x[0], anglesVelocity))
+    # Substitute for derivative formula
     jacobianDerivative = np.array([
         [
             -l1 * np.cos(theta3) * np.sin(theta1) * theta3_dot - l1 * np.sin(theta3) * np.cos(theta1) * theta1_dot, 
@@ -136,30 +157,39 @@ def computeArcLength(function, delta):
     print(arc_len)
     return float(arc_len)
 
+# First part of the piecewise of the acceleration profile
 def accelProfilePart1(t, a, j, t_1, *args, **kwargs):
     return a*np.sin((j*t)/a)
 
+# Third part of the piecewise of the acceleration profile
 def accelProfilePart3(t, a, j, t_1, *args, **kwargs):
     return a*np.cos((j/a)*(t - (t_1+((np.pi*a)/(2*j)))))
 
+# Fifth part of the piecewise of the acceleration profile
 def accelProfilePart5(t, a, j, t_1, *args, **kwargs):
     return a*np.sin((j/a)*(t - ((2*t_1)-((2*np.pi*a)/j))))
 
+# First part of the piecewise of the velocity profile
 def velProfilePart1(t, a, j, t_1, *args, **kwargs):
     return ((a**2)/j)*(1-np.cos((j*t)/a))
 
+# Second part of the piecewise of the velocity profile
 def velProfilePart2(t, a, j, t_1, *args, **kwargs):
     return a*t + (1-(np.pi/2))*((a**2)/j)
 
+# Third part of the piecewise of the velocity profile
 def velProfilePart3(t, a, j, t_1, *args, **kwargs):
     return ((a**2)/j)*np.cos((j*t)/a - ((j*t_1)/a) - (np.pi/2)) + a*t_1 + ((a**2)/j)
 
+# Fourth part of the piecewise of the velocity profile
 def velProfilePart4(t, a, j, t_1, *args, **kwargs):
     return -a*t + 2*a*t_1 + (1+((3*np.pi)/2))*((a**2)/j)
 
+# Fifth part of the piecewise of the velocity profile
 def velProfilePart5(t, a, j, t_1, *args, **kwargs):
     return ((a**2)/j)*(1-np.cos((((j*t)/a)) - ((2*j*t_1)/a)))
 
+# Here is the actual piecewise acceleration profile
 def piecewiseAcceleration(time, a, j, t_1):
     if(0 <= time and time < (np.pi*a)/(2*j)):
         return accelProfilePart1(time, a, j, t_1)
@@ -172,9 +202,10 @@ def piecewiseAcceleration(time, a, j, t_1):
     elif((3*np.pi*a)/(2*j) + 2*t_1 <= time and time <= (2*np.pi*a)/(j) + 2*t_1):
        return accelProfilePart5(time, a, j, t_1)
     else:
-        print("what the fuck?")
+        print("how?")
         return 0
 
+# Here is the actual piecewise velocity profile
 def piecewiseVelocity(time, a, j, t_1):
     if (0 <= time and time < (np.pi*a)/(2*j)):
         return velProfilePart1(time, a, j, t_1)
@@ -187,10 +218,10 @@ def piecewiseVelocity(time, a, j, t_1):
     elif((3*np.pi*a)/(2*j) + 2*t_1 <= time and time <= (2*np.pi*a)/(j) + 2*t_1):
         return velProfilePart5(time, a, j, t_1)
     else:
-        print("what the fuck?")
+        print("how?")
         return 0
 
-
+# Compute the total time the arm will take to go through the motion
 def computeTotalTime(a, j, L):
     t_1 = -(1 + (np.pi/2))*(a/j) + np.sqrt((1-np.pi+(((np.pi)**2)/4)) * ((a/j)**2) + L/a)
     t_total: int = ((2 * np.pi * a)/j) + 2*t_1
@@ -232,14 +263,17 @@ def computePVA(x, y, z, time, l1, l2, motion_bounds, fAndCoords, maxAcceleration
     return (
         [angles[0], angles[1], angles[2], anglesVelocity[0][0], anglesVelocity[1][0], anglesVelocity[2][0], anglesAcceleration[0][0], anglesAcceleration[1][0], anglesAcceleration[2][0]])
 
+# Util function for a unit vector
 def unit_vector(vector):
     return vector / np.linalg.norm(vector)
 
+# Util function to get the angle between two vectors
 def angle_between(v1, v2):
     v1_u = unit_vector(v1)
     v2_u = unit_vector(v2)
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
+# Find the closest coordinate on the spline given a specific vector.
 def findClosestCoord(coords, thetas, l1, l2, function, delta):
     (theta1, theta2, theta3) = thetas
          
@@ -269,7 +303,7 @@ def createProfile(knotPointsX, knotPointsY, knotPointsZ, delta, l1, l2, maxAccel
     # First, define the path using the interpolation
     fAndCoords = cubicInterpolate(knotPointsX, knotPointsY, knotPointsZ, delta)
 
-
+    # Find our arc length
     arc_length = computeArcLength(fAndCoords[0], delta)
 
     motion_bounds = computeTotalTime(maxAcceleration, maxJerk, arc_length)
@@ -330,6 +364,7 @@ def createProfile(knotPointsX, knotPointsY, knotPointsZ, delta, l1, l2, maxAccel
 #         [-(profileComponent[0]) + np.pi / 2, -(profileComponent[1]), -profileComponent[2], -profileComponent[3],
 #          -profileComponent[4], -profileComponent[5]])
 
+# Reconverts the data in the profile into an (x, y, z) coordinate that the animation can render.
 def direct_kinematics(theta1, theta2, theta3, l1, l2):
 
     return ((
@@ -372,7 +407,7 @@ ax.set_zlabel("Z Axis")
 
 theta1, theta2, theta3 = profile[0][0], profile[0][1], profile[0][2]
 
-
+# Some test code
 a = convertToAngularPosition(0.2221095887179398, -0.763246952448105, -0.2977610870247407, arm1Length, arm2Length)
 print(a)
 #print(theta1, theta2, theta3)

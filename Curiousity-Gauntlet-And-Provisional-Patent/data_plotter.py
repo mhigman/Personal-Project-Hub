@@ -92,7 +92,6 @@ scatter = go.Scatter3d(
 
 
 def calculate_weight_at_const_rate(s, l_a, l_b, p):
-    #TODO: Weight function doesn't seem to be getting the right values
     tolerance_of_severity = 0.5
     tolerance_of_likelihood = 0.5
    
